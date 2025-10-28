@@ -1,1 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flood Impact Prediction – Mono River Basin</title>
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/6/6a/Map_symbol_blue_drop.svg" />
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+      color: #333;
+      scroll-behavior: smooth;
+    }
 
+    header {
+      background: linear-gradient(90deg, #004e92, #000428);
+      color: white;
+      text-align: center;
+      padding: 70px 20px 50px;
+    }
+
+    header h1 {
+      font-size: 2.3rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      opacity: 0.9;
+    }
+
+    nav {
+      background-color: #ffffff;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    nav li {
+      margin: 0;
+    }
+
+    nav a {
+      display: block;
+      padding: 12px 18px;
+      color: #004e92;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    nav a:hover {
+      background-color: #004e92;
+      color: white;
+    }
+
+    section {
+      padding: 60px 8%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h2 {
+      color: #004e92;
+      margin-bottom: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      line-height: 1.6;
+    }
+
+    footer {
+      background-color: #002b4e;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: #70cfff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      iframe {
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header id="top">
+    <h1>🌊 Flood Impact Prediction in the Mono River Basin</h1>
+    <p>
+      This project evaluates flood risk in the Mono River Basin (Togo–Benin) using 
+      satellite-derived rainfall and terrain data. The workflow applies a 
+      <strong>volume comparison method</strong> to estimate flood extent, 
+      depth, and risk across population and infrastructure layers.
+    </p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#intro">Introduction</a></li>
+      <li><a href="#workflow">Workflow</a></li>
+      <li><a href="#maps">Interactive Maps</a></li>
+      <li><a href="#findings">Findings</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section id="intro">
+    <h2>1. Introduction</h2>
+    <p>
+      Flooding remains one of the most destructive natural hazards in West Africa, 
+      with impacts expected to intensify under climate change. This study analyzes 
+      rainfall-runoff interactions, terrain storage, and population exposure 
+      across the Mono River Basin using remote sensing datasets.
+    </p>
+    <p>
+      <strong>Objective:</strong> Evaluate flood-prone areas based on rainfall, 
+      land use, population, and built infrastructure, and identify key risk zones.
+    </p>
+  </section>
+
+  <section id="workflow">
+    <h2>2. Workflow Diagram</h2>
+    <p>The interactive workflow below outlines the data processing and analysis pipeline used for flood extent and risk assessment.</p>
+    <iframe src="assets/workflow.html"></iframe>
+  </section>
+
+  <section id="maps">
+    <h2>3. Interactive Maps</h2>
+
+    <h3>🗺️ Monthly Flood Extent Maps</h3>
+    <p>
+      Explore monthly flood simulation results derived from rainfall and terrain data. 
+      Use the layer panel to toggle between months.
+    </p>
+    <iframe src="assets/QGISmap/monthly/index.html"></iframe>
+
+    <br /><br />
+
+    <h3>⚠️ Flood Risk Index Map</h3>
+    <p>
+      The map below integrates hazard (depth and frequency), exposure (population and buildings), 
+      and vulnerability (land cover and density) into a composite risk index.
+    </p>
+    <iframe src="assets/QGISmap/risk/index.html"></iframe>
+  </section>
+
+  <section id="findings">
+    <h2>4. Key Findings</h2>
+    <ul>
+      <li>High flood frequency occurs in lowland sub-basins along the main Mono River channel.</li>
+      <li>Urban centers near the river show the highest population and building exposure.</li>
+      <li>Seasonal rainfall peaks (June–September) correspond to the highest modeled flood extents.</li>
+      <li>The derived risk map aligns with documented flood-affected zones in southern Togo and Benin.</li>
+    </ul>
+  </section>
+
+  <section id="contact">
+    <h2>5. Contact & Repository</h2>
+    <p>
+      Project created by <strong>[Your Name]</strong> · Hosted on 
+      <a href="https://github.com/[your-username]/mono_flood" target="_blank">GitHub</a>.
+    </p>
+    <p>
+      All data are derived from open sources:
+      <ul>
+        <li>PERSIANN (Rainfall)</li>
+        <li>ESA WorldCover (Land Use)</li>
+        <li>WorldPop (Population)</li>
+        <li>HydroSHEDS / HydroRIVERS (Watershed, Streams)</li>
+        <li>OpenStreetMap (Buildings)</li>
+      </ul>
+    </p>
+  </section>
+
+  <footer>
+    <p>
+      © 2025 Mono River Basin Flood Risk Project · Built with QGIS & Leaflet · 
+      Hosted via <a href="https://pages.github.com/">GitHub Pages</a>
+    </p>
+  </footer>
+</body>
+</html>
