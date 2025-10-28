@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Flood Impact Prediction – Mono River Basin</title>
-  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/6/6a/Map_symbol_blue_drop.svg" />
   <style>
     body {
       font-family: "Segoe UI", Arial, sans-serif;
@@ -87,8 +86,20 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    ul {
-      line-height: 1.6;
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    table th, table td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #e9ecef;
     }
 
     footer {
@@ -99,15 +110,6 @@
       margin-top: 40px;
     }
 
-    footer a {
-      color: #70cfff;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
     @media (max-width: 768px) {
       iframe {
         height: 400px;
@@ -115,101 +117,111 @@
     }
   </style>
 </head>
-
 <body>
-  <header id="top">
-    <h1>🌊 Flood Impact Prediction in the Mono River Basin</h1>
+
+  <header>
+    <h1>Flood Impact Prediction in the Mono River Basin</h1>
     <p>
-      This project evaluates flood risk in the Mono River Basin (Togo–Benin) using 
-      satellite-derived rainfall and terrain data. The workflow applies a 
-      <strong>volume comparison method</strong> to estimate flood extent, 
-      depth, and risk across population and infrastructure layers.
+      Identifying flood-prone areas in the Mono River Basin using rainfall-runoff simulation and geospatial analysis.
     </p>
   </header>
 
   <nav>
     <ul>
-      <li><a href="#intro">Introduction</a></li>
-      <li><a href="#workflow">Workflow</a></li>
-      <li><a href="#maps">Interactive Maps</a></li>
-      <li><a href="#findings">Findings</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#introduction">1. Introduction</a></li>
+      <li><a href="#data-sources">2. Data Sources</a></li>
+      <li><a href="#methodology">3. Methodology</a></li>
+      <li><a href="#results">4. Results & Discussion</a></li>
     </ul>
   </nav>
 
-  <section id="intro">
+  <section id="introduction">
     <h2>1. Introduction</h2>
     <p>
-      Flooding remains one of the most destructive natural hazards in West Africa, 
-      with impacts expected to intensify under climate change. This study analyzes 
-      rainfall-runoff interactions, terrain storage, and population exposure 
-      across the Mono River Basin using remote sensing datasets.
+      Flooding remains one of the most destructive natural hazards in West Africa, with impacts expected to intensify under climate change. This project evaluates flood risk in the Mono River Basin using satellite-derived rainfall and terrain data. By simulating runoff and water accumulation using a volume comparison method, this project identifies areas historically vulnerable to flooding and evaluates how infrastructure and population may be affected.
     </p>
     <p>
-      <strong>Objective:</strong> Evaluate flood-prone areas based on rainfall, 
-      land use, population, and built infrastructure, and identify key risk zones.
+      Although this analysis is based on historical rainfall, the workflow is designed as a foundation for future predictive tools. With real-time rainfall input or climate projections, this method can be extended into an early warning or planning system.
     </p>
+    <p><strong>Objective:</strong> Evaluate flood-prone areas based on rainfall input and built infrastructure and population.</p>
+    <p><em>(map1: Mono River Basin overview and river network)</em></p>
   </section>
 
-  <section id="workflow">
-    <h2>2. Workflow Diagram</h2>
-    <p>The interactive workflow below outlines the data processing and analysis pipeline used for flood extent and risk assessment.</p>
+  <section id="data-sources">
+    <h2>2. Data Sources</h2>
+    <table>
+      <tr>
+        <th>Layer Name</th>
+        <th>File Type</th>
+        <th>Description</th>
+        <th>Source</th>
+      </tr>
+      <tr><td>rainfall</td><td>tif</td><td>2023 Monthly rainfall in mm</td><td>PERSIANN</td></tr>
+      <tr><td>landuse</td><td>tif</td><td>Land cover</td><td>ESA WorldCover</td></tr>
+      <tr><td>population</td><td>tif</td><td>Gridded population raster</td><td>WorldPop</td></tr>
+      <tr><td>building</td><td>geojson</td><td>Polygon layer of buildings</td><td>OSM</td></tr>
+      <tr><td>watershed</td><td>shp</td><td>Watershed polygon</td><td>HydroSHEDS</td></tr>
+      <tr><td>river network</td><td>shp</td><td>Stream network</td><td>HydroRIVERS</td></tr>
+    </table>
+  </section>
+
+  <section id="methodology">
+    <h2>3. Methodology</h2>
+
+    <h3>3.1 Workflow Chart</h3>
     <iframe src="assets/workflow.html"></iframe>
-  </section>
 
-  <section id="maps">
-    <h2>3. Interactive Maps</h2>
-
-    <h3>🗺️ Monthly Flood Extent Maps</h3>
-    <p>
-      Explore monthly flood simulation results derived from rainfall and terrain data. 
-      Use the layer panel to toggle between months.
-    </p>
-    <iframe src="assets/QGISmap/monthly/index.html"></iframe>
-
-    <br /><br />
-
-    <h3>⚠️ Flood Risk Index Map</h3>
-    <p>
-      The map below integrates hazard (depth and frequency), exposure (population and buildings), 
-      and vulnerability (land cover and density) into a composite risk index.
-    </p>
-    <iframe src="assets/QGISmap/risk/index.html"></iframe>
-  </section>
-
-  <section id="findings">
-    <h2>4. Key Findings</h2>
+    <h3>3.2 Preprocessing Steps</h3>
     <ul>
-      <li>High flood frequency occurs in lowland sub-basins along the main Mono River channel.</li>
-      <li>Urban centers near the river show the highest population and building exposure.</li>
-      <li>Seasonal rainfall peaks (June–September) correspond to the highest modeled flood extents.</li>
-      <li>The derived risk map aligns with documented flood-affected zones in southern Togo and Benin.</li>
+      <li>All rasters reprojected in WGS84 and resampled to the same resolution (~0.000833°) and aligned extent.</li>
+      <li>Clipped all layers to Mono River Basin boundary.</li>
+    </ul>
+
+    <h3>3.3 Flood Extent Estimation – Volume Comparison Method</h3>
+    <p>
+      Runoff coefficient is derived from landuse layer.<br>
+      For each monthly rainfall raster: <br>
+      <code>RunoffVolume (m³) = (Rainfall_mm / 1000) × RunoffCoefficient × PixelArea (m²)</code><br>
+      For each pixel in the watershed: runoff volume is compared against storage capacity (assumed 100 mm).
+    </p>
+    <p>
+      Flooded area is defined where: <code>runoff_volume > capacity_threshold</code>
+    </p>
+
+    <h3>3.4 Risk Index Calculation</h3>
+    <ul>
+      <li>Exposure_Index = 0.7 × Norm_Pop + 0.3 × Norm_Buildings</li>
+      <li>Vulnerability_Index = 0.7 × LandCoverScore + 0.3 × NormalizedPopulation</li>
+      <li>Hazard_Index = 0.5 × NormalizedDepth + 0.5 × NormalizedFrequency</li>
+      <li>Risk_Index = 0.5 × Hazard + 0.3 × Exposure + 0.2 × Vulnerability</li>
     </ul>
   </section>
 
-  <section id="contact">
-    <h2>5. Contact & Repository</h2>
-    <p>
-      Project created by <strong>[Your Name]</strong> · Hosted on 
-      <a href="https://github.com/[your-username]/mono_flood" target="_blank">GitHub</a>.
-    </p>
-    <p>
-      All data are derived from open sources:
-      <ul>
-        <li>PERSIANN (Rainfall)</li>
-        <li>ESA WorldCover (Land Use)</li>
-        <li>WorldPop (Population)</li>
-        <li>HydroSHEDS / HydroRIVERS (Watershed, Streams)</li>
-        <li>OpenStreetMap (Buildings)</li>
-      </ul>
-    </p>
+  <section id="results">
+    <h2>4. Results & Discussion</h2>
+
+    <h3>4.1 Risk Index Map</h3>
+    <p>Includes: Basemap, Watershed, River Network, Risk Index, Vulnerability Index, Hazard Index</p>
+    <iframe src="assets/QGISmap/risk/index.html"></iframe>
+
+    <h3>4.2 Monthly Flood Extent Maps (10cm threshold)</h3>
+    <p>Flood extent maps for each of the 12 months. Layers can be toggled interactively.</p>
+    <iframe src="assets/QGISmap/monthly/index.html"></iframe>
+
+    <h3>4.3 Key Findings</h3>
+    <ul>
+      <li>High flood frequency occurs in lowland sub-basins.</li>
+      <li>Rainfall-driven flood peaks occur from June to September.</li>
+      <li>Urban and densely populated zones coincide with highest risk levels.</li>
+      <li>Risk index aligns well with historically affected areas in Togo and Benin.</li>
+    </ul>
   </section>
 
   <footer>
     <p>
-      © 2025 Mono River Basin Flood Risk Project · Built with QGIS & Leaflet · 
-      Hosted via <a href="https://pages.github.com/">GitHub Pages</a>
+      © Wukai Jiang · Mono River Basin Flood Project · Hosted via GitHub Pages · Built with QGIS & Leaflet
     </p>
   </footer>
+
 </body>
 </html>
